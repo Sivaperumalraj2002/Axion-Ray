@@ -1,0 +1,22 @@
+Approach to Tagging (Root Cause, Symptom, Fix fields)
+I used a rule-based, transparent keyword-matching approach against the provided Taxonomy sheet. 
+First I normalized the taxonomy values (stripped whitespace and lowercased) and built lists of canonical 
+terms for each category: Root Cause, Symptom Condition, Symptom Component, Fix Condition and Fix Component. 
+For each record I searched the free-text fields (Complaint, Cause, Correction) for occurrences of these 
+taxonomy phrases. Root Cause candidates were prioritized from the 'Cause' column, then 'Correction' and 
+'Complaint' as fallback. Symptom Condition and Symptom Component tags were searched mainly in the 
+Complaint and Cause fields. Fix Condition and Fix Component tags were matched primarily in the Correction text. 
+Where multiple taxonomy terms matched, up to three matches per category were recorded in separate columns 
+(Symptom Condition 1..3, Symptom Component 1..3, Fix Condition 1..3, Fix Component 1..3).
+
+Handling Ambiguity and Limitations
+This approach is deterministic and easy to audit, and it aligns with the provided taxonomy. However, it 
+depends on exact/substring matches and does not capture paraphrases, synonyms, or spelling errors. For 
+ambiguous rows with no direct matches, fields are left blank; these should be reviewed manually or processed 
+with an NLP model (fuzzy matching or embeddings) for improved recall.
+
+Potential Insights (food for thought)
+- Frequent Root Causes (e.g., 'Not Installed', 'Not Tightened') can highlight process gaps in assembly or QA.
+- Common Symptom Components can point to parts with higher failure rates (target for design review).
+- If particular Fix Components routinely reoccur, procurement and spare-part planning can be optimized.
+- Cross-tabulating Root Cause with Fix Component can reveal corrective actions that are ineffective or costly.

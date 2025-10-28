@@ -1,0 +1,22 @@
+Task 2 - Column Analysis and Cleaning Summary
+Dataset shape: (100, 55)
+
+Top critical columns (selected): KM, TOTALCOST, CAUSAL_PART_NM, REPAIR_DATE, REPAIR_AGE
+
+Cleaning steps applied (summary):
+- Standardized string columns by trimming whitespace. Lowercased selected categorical columns (STATE, BUILD_COUNTRY, PLATFORM, BODY_STYLE, PLANT).
+- Filled categorical missing values with mode where missingness <= 5% of rows.
+- Filled numeric missing values with median where missingness <= 5% of rows.
+- Flagged outliers in KM and TOTALCOST using IQR rule and added boolean columns indicating outliers.
+- Generated tags from CAUSAL_PART_NM, CORRECTION_VERBATIM and CUSTOMER_VERBATIM by tokenizing and selecting top keywords per row.
+
+Top generated tags (sample): [('steering', 98), ('wheel', 97), ('strg', 95), ('asm', 89), ('black', 62), ('states', 56), ('jet', 27), ('heated', 11), ('coming', 10), ('whl', 10), ('found', 5), ('removed', 5), ('pra', 3), ('horn', 3), ('check', 3), ('cover', 3), ('sop', 3), ('module', 3), ('concern', 2), ('off', 2)]
+
+Actionable insights (food for thought):
+- High KM vehicles with higher TOTALCOST may indicate aging fleet cost trends; consider targeted preventive maintenance for high-mileage vehicles.
+- Frequent causal parts (see viz_top_causal_parts) can inform spare-parts stock planning and supplier quality audits.
+- Common tags found in customer and correction verbatims (e.g., steering, wheel, strg, asm, black) can be used to build a small taxonomy for automated routing of repairs.
+- Outlier repairs (flagged) should be reviewed manually to check for billing errors or special incidents.
+
+Files created in output directory: /mnt/data/axionray_assignment_outputs
+Visualizations saved: viz_km_histogram.png, viz_top_causal_parts.png, viz_totalcost_vs_km.png
